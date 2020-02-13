@@ -45,7 +45,12 @@ func getPath() string {
 	for i := 0; i < random(minLinkDepth, maxLinkDepth); i++ {
 		path = append(path, fmt.Sprintf("%d", rand.Intn(10000)))
 	}
-	return "/" + strings.Join(path, "/")
+
+	// generate some relative links
+	if rand.Intn(10) > 2 {
+		return "/" + strings.Join(path, "/")
+	}
+	return strings.Join(path, "/")
 }
 
 func writePage(w io.Writer, links []string) error {
