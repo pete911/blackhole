@@ -22,7 +22,6 @@ func handler(w http.ResponseWriter, _ *http.Request) {
 	if err := writePage(w, getLinks()); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-	w.WriteHeader(http.StatusOK)
 }
 
 func main() {
