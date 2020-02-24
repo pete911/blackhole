@@ -3,6 +3,7 @@ package main
 import (
 	"math/rand"
 	"strings"
+	"time"
 )
 
 const (
@@ -13,6 +14,10 @@ const (
 )
 
 var absRelLinksRatio = [2]int{10, 2}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 func GetLinks(flags Flags) []string {
 
