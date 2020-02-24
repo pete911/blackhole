@@ -7,9 +7,7 @@ import (
 	"net/http"
 )
 
-var (
-	pageTemplate *template.Template
-)
+var pageTemplate *template.Template
 
 func init() {
 
