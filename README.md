@@ -4,11 +4,15 @@ Simple web server generating random links. The aim of this project is to keep bo
 
 ## build
 
- - `go build`
+ - go - `go build` ([go](https://golang.org/dl/) required)
+ - docker - `docker build -t blackhole .` ([docker](https://www.docker.com/) required)
 
 ## run
 
- - `./blackhole` creates local server on port `8080`, let bots/crawlers/spiders run against it.
+ - go - `./blackhole`
+ - docker - `docker run -d -p 8080:8080 --name blackhole blackhole`
+ 
+ creates local server on port `8080`, let bots/crawlers/spiders run against it.
 
 ### optional flags
 
