@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"strconv"
 )
@@ -25,13 +26,26 @@ type Flags struct {
 func ParseFlags() Flags {
 
 	flag.Parse()
-	return Flags{
+	f := Flags{
 		Port:         intValue(port),
 		MaxLinks:     intValue(maxLinks),
 		MinLinks:     intValue(minLinks),
 		MaxLinkDepth: intValue(maxLinkDepth),
 		MinLinkDepth: intValue(minLinkDepth),
 	}
+
+	if err := f.validate(); err != nil {
+		failFlags(err)
+	}
+	return f
+}
+
+func (f Flags) validate() error {
+
+	if f.Port < 0 || f.Port > 65535 {
+		return fmt.Errorf("invalid port number: %d", f.Port)
+	}
+	return nil
 }
 
 func intValue(v *int) int {
@@ -53,4 +67,12 @@ func getIntEnv(envName string, defaultValue int) int {
 		return intValue
 	}
 	return defaultValue
+}
+
+func failFlags(err error) {
+
+	flag.CommandLine.SetOutput(os.Stderr)
+	fmt.Fprintln(flag.CommandLine.Output(), err.Error())
+	flag.Usage()
+	os.Exit(2)
 }
