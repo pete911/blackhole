@@ -1,10 +1,12 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
 var pageTemplate *template.Template
@@ -25,7 +27,11 @@ func init() {
 
 func main() {
 
-	flags := ParseFlags()
+	flags, err := ParseFlags()
+	if err != nil {
+		failFlags(err)
+	}
+
 	log.Printf("started blackhole, flags: %+v", flags)
 	http.HandleFunc("/", handler(flags))
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", flags.Port), nil))
@@ -38,4 +44,12 @@ func handler(flags Flags) func(w http.ResponseWriter, _ *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 		}
 	}
+}
+
+func failFlags(err error) {
+
+	flag.CommandLine.SetOutput(os.Stderr)
+	fmt.Fprintln(flag.CommandLine.Output(), err.Error())
+	flag.Usage()
+	os.Exit(1)
 }

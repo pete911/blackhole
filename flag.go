@@ -7,14 +7,6 @@ import (
 	"strconv"
 )
 
-var (
-	port         = flag.Int("port", getIntEnv("BH_PORT", 8080), "blackhole server port")
-	maxLinks     = flag.Int("max-links", getIntEnv("BH_MAX_LINKS", 50), "max. number of links to generate")
-	minLinks     = flag.Int("min-links", getIntEnv("BH_MIN_LINKS", 10), "min. number of links to generate")
-	maxLinkDepth = flag.Int("max-link-depth", getIntEnv("BH_MAX_LINK_DEPTH", 10), "max. link depth (number of path segments)")
-	minLinkDepth = flag.Int("min-link-depth", getIntEnv("BH_MIN_LINK_DEPTH", 1), "min. link depth (number of path segments)")
-)
-
 type Flags struct {
 	Port         int
 	MaxLinks     int
@@ -23,10 +15,22 @@ type Flags struct {
 	MinLinkDepth int
 }
 
-func ParseFlags() Flags {
+func ParseFlags() (Flags, error) {
 
-	flag.Parse()
-	f := Flags{
+	f := flag.NewFlagSet(os.Args[0], flag.ContinueOnError)
+	var (
+		port         = f.Int("port", getIntEnv("BH_PORT", 8080), "blackhole server port")
+		maxLinks     = f.Int("max-links", getIntEnv("BH_MAX_LINKS", 50), "max. number of links to generate")
+		minLinks     = f.Int("min-links", getIntEnv("BH_MIN_LINKS", 10), "min. number of links to generate")
+		maxLinkDepth = f.Int("max-link-depth", getIntEnv("BH_MAX_LINK_DEPTH", 10), "max. link depth (number of path segments)")
+		minLinkDepth = f.Int("min-link-depth", getIntEnv("BH_MIN_LINK_DEPTH", 1), "min. link depth (number of path segments)")
+	)
+	if err := f.Parse(os.Args[1:]); err != nil {
+		return Flags{}, err
+	}
+
+	//flag.Parse()
+	flags := Flags{
 		Port:         intValue(port),
 		MaxLinks:     intValue(maxLinks),
 		MinLinks:     intValue(minLinks),
@@ -34,10 +38,8 @@ func ParseFlags() Flags {
 		MinLinkDepth: intValue(minLinkDepth),
 	}
 
-	if err := f.validate(); err != nil {
-		failFlags(err)
-	}
-	return f
+	err := flags.validate()
+	return flags, err
 }
 
 func (f Flags) validate() error {
@@ -46,14 +48,6 @@ func (f Flags) validate() error {
 		return fmt.Errorf("invalid port number: %d", f.Port)
 	}
 	return nil
-}
-
-func intValue(v *int) int {
-
-	if v == nil {
-		return 0
-	}
-	return *v
 }
 
 func getIntEnv(envName string, defaultValue int) int {
@@ -69,10 +63,10 @@ func getIntEnv(envName string, defaultValue int) int {
 	return defaultValue
 }
 
-func failFlags(err error) {
+func intValue(v *int) int {
 
-	flag.CommandLine.SetOutput(os.Stderr)
-	fmt.Fprintln(flag.CommandLine.Output(), err.Error())
-	flag.Usage()
-	os.Exit(2)
+	if v == nil {
+		return 0
+	}
+	return *v
 }
