@@ -2,18 +2,19 @@
 
 # Blackhole
 
-Simple web server generating random links. The aim of this project is to keep bots/web crawlers occupied within 'blackhole'.
+Simple web server generating random links. The aim of this project is to keep bots/web crawlers occupied within
+'blackhole'. Project can be run as docker image either built locally or downloaded from
+[dockeruhb](https://hub.docker.com/r/pete911/blackhole).
 
-## build
+```shell script
+docker run --rm -it -p 8080:8080 pete911/blackhole
+```
 
- - go - `go build` ([go](https://golang.org/dl/) required)
- - docker - `docker build -t blackhole .` ([docker](https://www.docker.com/) required)
+## local build and run
 
-## run
+ - go `make build && ./blackhole` ([go](https://golang.org/dl/) required)
+ - docker - `docker build -t blackhole . && docker run -d -p 8080:8080 --name blackhole blackhole` ([docker](https://www.docker.com/) required)
 
- - go - `./blackhole`
- - docker - `docker run -d -p 8080:8080 --name blackhole blackhole`
- 
  creates local server on port `8080`, let bots/crawlers/spiders run against it.
 
 ### optional flags
