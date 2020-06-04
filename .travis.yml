@@ -8,6 +8,10 @@ git:
   quiet: true
   submodules: false
 
+branches:
+  only:
+    - master
+
 services:
   - docker
 
@@ -16,7 +20,5 @@ script:
   - "VERSION=$TRAVIS_BUILD_NUMBER make image"
 
 after_success:
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
-    VERSION=$TRAVIS_BUILD_NUMBER make push-image ;
-    fi
+  docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
+  VERSION=$TRAVIS_BUILD_NUMBER make push-image ;
