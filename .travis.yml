@@ -13,7 +13,7 @@ git:
 
 branches:
   only:
-    - main
+    - master
 
 services:
   - docker
@@ -38,7 +38,7 @@ deploy:
     - "releases/blackhole_darwin_arm64.tar.gz"
   skip_cleanup: true
   on:
-    branch: main
+    branch: master
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
