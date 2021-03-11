@@ -6,7 +6,7 @@ COPY flag.go link.go main.go ./
 RUN go build -o /bin/blackhole
 
 
-FROM alpine:3.11
+FROM alpine:3.13.2
 RUN apk add --no-cache
 
 COPY --from=build /bin/blackhole /usr/local/bin/blackhole
