@@ -2,9 +2,10 @@ FROM golang:1.16.1-alpine AS build
 RUN apk add --no-cache gcc libc-dev
 WORKDIR /go/src/app
 
-COPY flag.go link.go main.go ./
-RUN go build -o /bin/blackhole
-
+COPY . .
+RUN go test ./...
+ARG version=dev
+RUN go build -ldflags "-X main.Version=$version" -o /bin/blackhole
 
 FROM alpine:3.13.2
 RUN apk add --no-cache

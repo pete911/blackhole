@@ -9,7 +9,10 @@ import (
 	"os"
 )
 
-var pageTemplate *template.Template
+var (
+	Version      = "dev"
+	pageTemplate *template.Template
+)
 
 func init() {
 
@@ -32,7 +35,7 @@ func main() {
 		failFlags(err)
 	}
 
-	log.Printf("started blackhole, flags: %+v", flags)
+	log.Printf("started blackhole version: %s flags: %+v", Version, flags)
 	http.HandleFunc("/", handler(flags))
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", flags.Port), nil))
 }
