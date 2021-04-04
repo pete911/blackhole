@@ -3,11 +3,15 @@ IMAGE := pete911/${NAME}
 VERSION ?= dev
 
 test:
-	go test -v -race ./...
+	go test -v -race -cover ./...
 .PHONY:test
 
+bench:
+	go test -bench=.
+.PHONY:bench
+
 build: test
-	go build -ldflags "-X main.Version=${VERSION}" -mod vendor
+	go build -ldflags "-X main.Version=${VERSION}"
 .PHONY:build
 
 image:

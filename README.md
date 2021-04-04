@@ -30,6 +30,8 @@ docker run --rm -it -p 8080:8080 pete911/blackhole
         min. number of links to generate (default 10)
   -port int
         blackhole server port (default 8080)
+  -profile-port int
+        blackhole pprofile server port, 0 means pprof server is disabled (default 0)
 ```
 
 Each option can be by env. variable as well. Env. variables have the same name as flags but are in uppercase, prefixed

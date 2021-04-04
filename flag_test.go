@@ -18,6 +18,9 @@ func TestDefaultFlags(t *testing.T) {
 	if flags.Port != 8080 {
 		t.Errorf("port: want 8080, got %d", flags.Port)
 	}
+	if flags.ProfilePort != 0 {
+		t.Errorf("profile port: want 0, got %d", flags.Port)
+	}
 	if flags.MaxLinks != 50 {
 		t.Errorf("max links: want 50, got %d", flags.MaxLinks)
 	}

@@ -46,3 +46,13 @@ func TestGetLink(t *testing.T) {
 		}
 	}
 }
+
+// --- benchmarks ---
+
+func BenchmarkGetLinks(b *testing.B) {
+
+	flags := Flags{MinLinks: 5, MaxLinks: 20, MinLinkDepth: 1, MaxLinkDepth: 10}
+	for n := 0; n < b.N; n++ {
+		GetLinks(flags)
+	}
+}
