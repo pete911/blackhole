@@ -7,7 +7,7 @@ RUN go test ./...
 ARG version=dev
 RUN go build -ldflags "-X main.Version=$version" -o /bin/blackhole
 
-FROM alpine:3.16.3
+FROM alpine:3.17.0
 RUN apk add --no-cache
 
 COPY --from=build /bin/blackhole /usr/local/bin/blackhole
