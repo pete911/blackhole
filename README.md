@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/pete911/blackhole.svg?branch=master)](https://travis-ci.com/pete911/blackhole)
-
 # Blackhole
 
 Simple web server generating random links. The aim of this project is to keep bots/web crawlers occupied within
