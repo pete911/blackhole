@@ -1,3 +1,3 @@
 module github.com/pete911/blackhole
 
-go 1.20
+go 1.21
