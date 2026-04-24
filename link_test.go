@@ -8,7 +8,7 @@ import (
 func TestGetLinks(t *testing.T) {
 
 	flags := Flags{MinLinks: 5, MaxLinks: 20, MinLinkDepth: 1, MaxLinkDepth: 10}
-	for i := 0; i < 1000; i++ {
+	for range 1000 {
 		l := GetLinks(flags)
 		if len(l) < flags.MinLinks {
 			t.Errorf("%d links, expected %d or more", len(l), flags.MinLinks)
@@ -21,7 +21,7 @@ func TestGetLinks(t *testing.T) {
 
 func TestGetLinkSegment(t *testing.T) {
 
-	for i := 0; i < 1000; i++ {
+	for range 1000 {
 		s := getLinkSegment(5, 25)
 		if len(s) < 5 || len(s) > 25 {
 			t.Errorf("link segment is %d long, expected between 5 - 25", len(s))
@@ -35,7 +35,7 @@ func TestGetLinkSegment(t *testing.T) {
 func TestGetLink(t *testing.T) {
 
 	flags := Flags{MinLinkDepth: 1, MaxLinkDepth: 10}
-	for i := 0; i < 1000; i++ {
+	for range 1000 {
 		l := getLink(flags)
 		depth := strings.Split(l, "/")
 		if len(depth) < flags.MinLinkDepth {

@@ -8,7 +8,8 @@ ARG version=dev
 RUN go build -ldflags "-X main.Version=$version" -o /bin/blackhole
 
 FROM alpine:3.23.4
-RUN apk add --no-cache
 
 COPY --from=build /bin/blackhole /usr/local/bin/blackhole
-CMD ["blackhole"]
+EXPOSE 8080
+USER nobody:nobody
+CMD ["/usr/local/bin/blackhole"]

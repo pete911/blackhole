@@ -2,7 +2,7 @@
 
 Simple web server generating random links. The aim of this project is to keep bots/web crawlers occupied within
 'blackhole'. Project can be run as docker image either built locally or downloaded from
-[dockeruhb](https://hub.docker.com/r/pete911/blackhole).
+[DockerHub](https://hub.docker.com/r/pete911/blackhole).
 
 ```shell script
 docker run --rm -it -p 8080:8080 pete911/blackhole

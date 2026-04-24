@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 )
@@ -31,7 +32,6 @@ func ParseFlags() (Flags, error) {
 		return Flags{}, err
 	}
 
-	//flag.Parse()
 	flags := Flags{
 		Port:         intValue(port),
 		ProfilePort:  intValue(profilePort),
@@ -51,10 +51,16 @@ func (f Flags) validate() error {
 		return fmt.Errorf("invalid port number: %d", f.Port)
 	}
 	if f.ProfilePort < 0 || f.ProfilePort > 65535 {
-		return fmt.Errorf("invalid profile port number: %d", f.Port)
+		return fmt.Errorf("invalid profile port number: %d", f.ProfilePort)
 	}
 	if f.ProfilePort == f.Port {
 		return fmt.Errorf("profile port and port cannot be the same: %d", f.Port)
+	}
+	if f.MinLinks < 1 {
+		return fmt.Errorf("min links %d has to be set to 1 or more", f.MinLinks)
+	}
+	if f.MinLinkDepth < 1 {
+		return fmt.Errorf("min link depth %d has to be set to 1 or more", f.MinLinkDepth)
 	}
 	return nil
 }
@@ -66,8 +72,9 @@ func getIntEnv(envName string, defaultValue int) int {
 		return defaultValue
 	}
 
-	if intValue, err := strconv.Atoi(env); err == nil {
-		return intValue
+	if out, err := strconv.Atoi(env); err == nil {
+		log.Printf("%s=%s is invalid int value, defaulting to %d", envName, env, defaultValue)
+		return out
 	}
 	return defaultValue
 }
