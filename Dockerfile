@@ -7,7 +7,7 @@ RUN go test ./...
 ARG version=dev
 RUN go build -ldflags "-X main.Version=$version" -o /bin/blackhole
 
-FROM alpine:3.24.1
+FROM alpine:3.24.2
 
 COPY --from=build /bin/blackhole /usr/local/bin/blackhole
 EXPOSE 8080
